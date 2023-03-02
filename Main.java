@@ -10,6 +10,7 @@ class Browser {
 
 	ArrayList<String> bookmarksList = new ArrayList<>();
 	static List<String> urlList = new ArrayList<>();
+	LinkedHashMap<String, String> shortcutsMap = new LinkedHashMap<>();
 
 	public List<String> getUrlList() {
 		return urlList;
@@ -27,6 +28,25 @@ class Browser {
 			}
 		}
 	}
+
+	ShortcutsInterface shortcuts = new ShortcutsInterface() {
+		public void addShortcut() {
+			for (String url : urlList) {
+				System.out.println("Enter shortcut for " + url);
+				Scanner sc1 = new Scanner(System.in);
+				String shortcut = sc1.nextLine();
+				shortcutsMap.put(shortcut, url);
+			}
+		}
+
+		public void displayShortcut() {
+			System.out.println("Displaying shortcuts : ");
+			for (Map.Entry<String, String> entry : shortcutsMap.entrySet()) {
+				System.out.println(entry.getKey() + ": " + entry.getValue());
+			}
+
+		}
+	};
 
 	static class History {
 		void addUrl(String url) {
@@ -53,7 +73,6 @@ public class Main {
 	public static void main(String[] args) {
 
 		String ch;
-		LinkedHashMap<String, String> shortcutsMap = new LinkedHashMap<>();
 
 		Browser browser = new Browser();
 		Browser.Bookmarks bookmark = browser.new Bookmarks();
@@ -75,27 +94,8 @@ public class Main {
 		} while (ch.equalsIgnoreCase("yes"));
 		bookmark.displayBookmark();
 
-		ShortcutsInterface shortcuts = new ShortcutsInterface() {
-			public void addShortcut() {
-				List<String> urlList = browser.getUrlList();
-				for (String url : urlList) {
-					System.out.println("Enter shortcut for " + url);
-					Scanner sc1 = new Scanner(System.in);
-					String shortcut = sc1.nextLine();
-					shortcutsMap.put(shortcut, url);
-				}
-			}
-
-			public void displayShortcut() {
-				for (Map.Entry<String, String> entry : shortcutsMap.entrySet()) {
-					System.out.println(entry.getKey() + ": " + entry.getValue());
-				}
-
-			}
-		};
-
-		shortcuts.addShortcut();
-		shortcuts.displayShortcut();
+		browser.shortcuts.addShortcut();
+		browser.shortcuts.displayShortcut();
 
 		history.displayHistory();
 	}
