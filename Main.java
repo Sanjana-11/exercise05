@@ -53,6 +53,7 @@ public class Main {
 	public static void main(String[] args) {
 
 		String ch;
+		LinkedHashMap<String, String> shortcutsMap = new LinkedHashMap<>();
 
 		Browser browser = new Browser();
 		Browser.Bookmarks bookmark = browser.new Bookmarks();
@@ -73,8 +74,6 @@ public class Main {
 			ch = sc.nextLine();
 		} while (ch.equalsIgnoreCase("yes"));
 		bookmark.displayBookmark();
-
-		LinkedHashMap<String, String> shortcutsMap = new LinkedHashMap<>();
 
 		ShortcutsInterface shortcuts = new ShortcutsInterface() {
 			public void addShortcut() {
